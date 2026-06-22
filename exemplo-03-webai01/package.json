@@ -1,0 +1,13 @@
+{
+  "name": "exemplo-03-webai01",
+  "version": "1.0.0",
+  "description": "Web AI Chat demo com Gemini Nano (Chrome built-in AI)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

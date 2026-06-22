@@ -1,0 +1,35 @@
+{
+  "name": "exemplo-embeddings-neo4j",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "node --env-file .env --experimental-strip-types src/index.ts",
+    "dev": "node --watch --env-file .env --experimental-strip-types src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docker:up": "docker-compose up -d --wait",
+    "docker:down": "docker-compose down --volumes"
+  },
+  "keywords": [],
+  "author": "joaoGuiotti012",
+  "license": "ISC",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "@huggingface/inference": "^4.13.5",
+    "@huggingface/transformers": "^3.8.1",
+    "@langchain/community": "^0.3.59",
+    "@langchain/core": "^0.3.80",
+    "@langchain/openai": "^0.4.2",
+    "@xenova/transformers": "^2.17.2",
+    "neo4j-driver": "^5.28.0",
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  }
+}

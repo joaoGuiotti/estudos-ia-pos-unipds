@@ -1,0 +1,10 @@
+services:
+  chroma:
+    image: chromadb/chroma:0.4.24
+    ports:
+      - 8000:8000
+    environment:
+      IS_PERSISTENT: "TRUE"
+      CHROMA_SERVER_CORS_ALLOW_ORIGINS: '["http://localhost:3000","http://127.0.0.1:3000"]'
+    volumes:
+      - ./chroma_data:/chroma/chroma
