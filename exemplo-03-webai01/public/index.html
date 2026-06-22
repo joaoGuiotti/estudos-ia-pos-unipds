@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web AI Chat</title>
+    <meta name="description" content="Chat demo com Gemini Nano via Chrome built-in AI (LanguageModel API)" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/markdown@0.5.0/lib/markdown.min.js"></script>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────── -->
+<header>
+    <div id="status-dot" style="background:#f59e0b; box-shadow:0 0 8px #f59e0b"></div>
+    <h1>Web AI Chat</h1>
+    <span id="model-status">Inicializando…</span>
+
+    <button id="settings-toggle" title="Parâmetros do modelo">
+        <svg viewBox="0 0 24 24">
+            <path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96a7.01 7.01 0 0 0-1.62-.94l-.36-2.54A.48.48 0 0 0 14 2h-4c-.25 0-.46.18-.49.42l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 0 0-.59.22L2.63 8.48a.48.48 0 0 0 .12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.3.59.22l2.39-.96c.49.37 1.03.7 1.62.94l.36 2.54c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.48.48 0 0 0-.12-.61l-2.03-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+        </svg>
+        Parâmetros
+    </button>
+</header>
+
+<!-- ── Settings Panel ──────────────────────────────────────── -->
+<div id="settings-panel">
+    <div class="settings-grid">
+
+        <div class="param-row">
+            <label>
+                Temperature
+                <span id="temp-val">—</span>
+            </label>
+            <input id="temp-slider" type="range" />
+            <span class="param-hint" id="temp-hint">carregando…</span>
+        </div>
+
+        <div class="param-row">
+            <label>
+                Top-K
+                <span id="topk-val">—</span>
+            </label>
+            <input id="topk-slider" type="range" />
+            <span class="param-hint" id="topk-hint">carregando…</span>
+        </div>
+
+        <button id="apply-btn">Aplicar e reiniciar sessão</button>
+
+    </div>
+</div>
+
+<!-- ── Chat ────────────────────────────────────────────────── -->
+<div id="chat"></div>
+<div id="status-bar"></div>
+
+<!-- ── Input ───────────────────────────────────────────────── -->
+<div id="input-area">
+    <textarea id="question" placeholder="Digite sua pergunta… (Enter para enviar)" rows="1" disabled></textarea>
+    <button id="send-btn" disabled title="Enviar">
+        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

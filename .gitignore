@@ -1,0 +1,31 @@
+# Dependências
+node_modules/
+
+# Variáveis de Ambiente
+.env
+.env.*
+!*.env.example
+envs/
+**/envs/
+
+# Banco de dados e Dados locais
+chroma_data/
+**/chroma_data/
+neo4j/
+**/neo4j/
+data/
+**/data/
+
+# Builds e Logs
+dist/
+build/
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# IDEs e OS
+.DS_Store
+.idea/
+.vscode/
