@@ -64,6 +64,7 @@ export class RagService {
         const responsePrompt = ChatPromptTemplate.fromTemplate(
             this.params.templateText!
         )
+
         const responseChain = responsePrompt
             .pipe(this.params.nlpModel!)
             .pipe(new StringOutputParser())
@@ -87,7 +88,7 @@ export class RagService {
         }
     }
 
-    async answerQuestion(question: string) {
+    async answerQuestion(question: string): Promise<IChainState> {
         const chain = RunnableSequence.from([
             this.retrieveVectorSearchResults.bind(this),
             this.generateNLPResponse.bind(this)
@@ -103,7 +104,7 @@ export class RagService {
         return result;
     }
 
-    static create(params: Params) {
+    static create(params: Params): RagService {
         return new RagService({
             ...params,
             nlpModel: this.createNLPModel(),

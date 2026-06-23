@@ -1,14 +1,14 @@
 import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
-import { type TextSplitterConfig } from '../core/config.ts';
+import { type ITextSplitterConfig } from '../core/config.ts';
 
 export class DocumentProcessorService {
     private pdfPath!: string;
-    private textSplitter!: TextSplitterConfig;
+    private textSplitter!: ITextSplitterConfig;
 
     private constructor(
         pdfPath: string,
-        textSplitter: TextSplitterConfig,
+        textSplitter: ITextSplitterConfig,
     ) {
         this.pdfPath = pdfPath;
         this.textSplitter = textSplitter;
@@ -37,7 +37,7 @@ export class DocumentProcessorService {
     }
 
 
-    static create(pdfPath: string, textSplitter: TextSplitterConfig) {
+    static create(pdfPath: string, textSplitter: ITextSplitterConfig) {
         return new DocumentProcessorService(pdfPath, textSplitter);
     }
 }

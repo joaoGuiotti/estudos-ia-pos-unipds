@@ -1,7 +1,7 @@
 import type { PretrainedOptions } from "@huggingface/transformers";
 import { readFileSync } from "node:fs";
 
-export interface TextSplitterConfig {
+export interface ITextSplitterConfig {
     chunkSize: number;
     chunkOverlap: number;
 }
