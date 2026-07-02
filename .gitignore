@@ -5,8 +5,8 @@ node_modules/
 .env
 .env.*
 !*.env.example
-envs/
-**/envs/
+# envs/ (removido para podermos comitar a pasta com o .env.example)
+# **/envs/
 
 # Banco de dados e Dados locais
 chroma_data/
@@ -29,3 +29,4 @@ yarn-error.log*
 .DS_Store
 .idea/
 .vscode/
+
