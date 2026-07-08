@@ -2,14 +2,27 @@ import { z } from 'zod';
 
 export const IntentSchema = z.object({
   intent: z.enum(['schedule', 'cancel', 'unknown']).describe('The user intent'),
-  professionalId: z.number().optional().describe('ID of the medical professional'),
-  professionalName: z.string().optional().describe('Name of the medical professional'),
-  datetime: z.string().optional().describe('Appointment date and time in ISO format'),
-  patientName: z.string().optional().describe('Patient name extracted from question'),
-  reason: z.string().optional().describe('Reason for appointment (for scheduling)'),
+  professionalId: z.number().optional().nullable().describe('ID of the medical professional'),
+  professionalName: z.string().optional().nullable().describe('Name of the medical professional'),
+  datetime: z.string().optional().nullable().describe('Appointment date and time in ISO format'),
+  patientName: z.string().optional().nullable().describe('Patient name extracted from question'),
+  reason: z.string().optional().nullable().describe('Reason for appointment (for scheduling)'),
 });
 
 export type IntentData = z.infer<typeof IntentSchema>;
+
+const tomorrowDate = () => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setUTCHours(16, 0, 0, 0);
+  return tomorrow;
+}
+
+const todayDate = () => {
+  const today = new Date();
+  today.setUTCHours(11, 0, 0, 0);
+  return today;
+}
 
 export const getSystemPrompt = (professionals: any[]) => {
   return JSON.stringify({
@@ -44,11 +57,11 @@ export const getSystemPrompt = (professionals: any[]) => {
     examples: [
       {
         input: 'I want to schedule with Dr. Alicio da Silva for tomorrow at 4pm for a check-up',
-        output: { intent: 'schedule', professionalId: 1, professionalName: 'Dr. Alicio da Silva', datetime: '2026-02-12T16:00:00.000Z', reason: 'check-up' }
+        output: { intent: 'schedule', professionalId: 1, professionalName: 'Dr. Alicio da Silva', datetime: tomorrowDate().toISOString(), reason: 'check-up' }
       },
       {
         input: 'Cancel my appointment with Dr. Ana Pereira today at 11am',
-        output: { intent: 'cancel', professionalId: 2, professionalName: 'Dr. Ana Pereira', datetime: '2026-02-11T11:00:00.000Z' }
+        output: { intent: 'cancel', professionalId: 2, professionalName: 'Dr. Ana Pereira', datetime: todayDate().toISOString() }
       },
       {
         input: 'What is the weather today?',

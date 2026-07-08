@@ -72,6 +72,7 @@ export class AppointmentService {
         appointments.push(newAppointment);
         return newAppointment;
     }
+
     cancelAppointment(professionalId: number, patientName: string, date: Date) {
         const hasBooked = this.getAppointmentsForProfessional(professionalId, date, patientName);
         if (!hasBooked) {

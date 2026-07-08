@@ -21,9 +21,8 @@ export const config: ModelConfig = {
   httpReferer: '',
   xTitle: 'IA Devs - Prompt Chaining Article Generator',
   models: [
-    // 'qwen/qwen3-coder-next',
-    // https://openrouter.ai/models?fmt=cards&max_price=0&order=throughput-high-to-low&supported_parameters=structured_outputs%2Cresponse_format
-    'upstage/solar-pro-3:free',
+    // 'cohere/rerank-4-pro',
+    'openai/gpt-4o-mini' // Using a chat model instead of an embedding model
   ],
   provider: {
     sort: {
