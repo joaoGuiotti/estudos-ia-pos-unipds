@@ -38,15 +38,15 @@ const AppointmentStateAnnotation = z.object({
 
 export type GraphState = z.infer<typeof AppointmentStateAnnotation>;
 
-export function buildAppointmentGraph(llmClient: OpenRouterService, appointmentService: AppointmentService) {
+export function buildAppointmentGraph(llmClientService: OpenRouterService, appointmentService: AppointmentService) {
   // Build workflow graph
   const workflow = new StateGraph({
     stateSchema: AppointmentStateAnnotation,
   })
-    .addNode('identifyIntent', createIdentifyIntentNode(llmClient))
-    .addNode('schedule', createSchedulerNode())
-    .addNode('cancel', createCancellerNode())
-    .addNode('message', createMessageGeneratorNode())
+    .addNode('identifyIntent', createIdentifyIntentNode(llmClientService))
+    .addNode('schedule', createSchedulerNode(appointmentService))
+    .addNode('cancel', createCancellerNode(appointmentService))
+    .addNode('message', createMessageGeneratorNode(llmClientService))
 
     // Flow
     .addEdge(START, 'identifyIntent')

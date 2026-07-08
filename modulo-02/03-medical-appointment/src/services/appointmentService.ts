@@ -81,6 +81,7 @@ export class AppointmentService {
 
         const index = appointments.indexOf(hasBooked);
         appointments.splice(index, 1);
+        return hasBooked;
     }
 
 }

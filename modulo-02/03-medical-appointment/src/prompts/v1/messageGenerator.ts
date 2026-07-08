@@ -27,7 +27,14 @@ export const getSystemPrompt = () => {
   });
 };
 
-export const getUserPromptTemplate = (data: any) => {
+export interface IUserPromptDetail {
+  professionalName?: string;
+  datetime?: string;
+  patientName?: string;
+  error?: string;
+}
+
+export const getUserPromptTemplate = (data: { scenario: string, details: IUserPromptDetail }) => {
   return JSON.stringify({
     scenario: data.scenario,
     details: data.details,

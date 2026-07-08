@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { professionals } from '../../services/appointmentService.ts';
 
 export const IntentSchema = z.object({
   intent: z.enum(['schedule', 'cancel', 'unknown']).describe('The user intent'),
@@ -24,7 +25,7 @@ const todayDate = () => {
   return today;
 }
 
-export const getSystemPrompt = (professionals: any[]) => {
+export const getSystemPrompt = () => {
   return JSON.stringify({
     role: 'Intent Classifier for Medical Appointments',
     task: 'Identify user intent and extract all appointment-related details',
@@ -71,15 +72,6 @@ export const getSystemPrompt = (professionals: any[]) => {
   });
 };
 
-export const getUserPromptTemplate = (question: string) => {
-  return JSON.stringify({
-    question,
-    instructions: [
-      'Carefully analyze the question to determine the user intent',
-      'Extract all relevant appointment details',
-      'Convert dates and times to ISO format',
-      'Match professional names to their IDs',
-      'Return only the fields that are present in the question'
-    ]
-  });
+export const getUserPromptTemplate = (input: string) => {
+  return JSON.stringify({ input });
 };

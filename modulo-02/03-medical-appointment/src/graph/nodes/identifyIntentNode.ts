@@ -1,5 +1,4 @@
 import { getSystemPrompt, getUserPromptTemplate, IntentSchema } from '../../prompts/v1/identifyIntent.ts';
-import { professionals } from '../../services/appointmentService.ts';
 import { OpenRouterService } from '../../services/openRouterService.ts';
 import type { GraphState } from '../graph.ts';
 
@@ -9,7 +8,7 @@ export function createIdentifyIntentNode(llmClient: OpenRouterService) {
     const input = state.messages.at(-1)!.text;
 
     try {
-      const systemPrompt = getSystemPrompt(professionals);
+      const systemPrompt = getSystemPrompt();
       const userPrompt = getUserPromptTemplate(input);
       const result = await llmClient.generateStructured(
         systemPrompt,
