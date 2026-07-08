@@ -1,0 +1,27 @@
+{
+  "name": "modulo-02",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lang:server": "npx @langchain/langgraph-cli@latest dev",
+    "start:dev": "tsx watch --env-file ./envs/.env ./src/index.ts",
+    "test:dev": "tsx --env-file ./envs/.env --test ./tests/*.test.ts",
+    "start": "npm run start:dev",
+    "test": "npm run test:dev"
+  },
+  "keywords": [],
+  "author": "JGuiotti",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@langchain/core": "^1.1.19",
+    "@types/node": "^24.10.13",
+    "fastify": "^5.7.4",
+    "langchain": "^1.2.17"
+  },
+  "devDependencies": {
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  }
+}
