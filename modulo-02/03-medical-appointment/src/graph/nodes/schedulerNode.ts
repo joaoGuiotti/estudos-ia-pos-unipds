@@ -4,8 +4,8 @@ import type { GraphState } from '../graph.ts';
 
 const scheduleRequiredFieldsSchema = z.object({
   professionalId: z.number({ required_error: 'Professional ID is required' }),
-  datetime: z.string({ required_error: 'Appointment datetime is required' }),
-  patientName: z.string({ required_error: 'Patient name is required' }),
+  datetime: z.string({ required_error: 'Appointment datetime is required' }).min(5, 'Appointment datetime is required'),
+  patientName: z.string({ required_error: 'Patient name is required' }).min(2, 'Patient name is required'),
 });
 
 
@@ -18,12 +18,12 @@ export function createSchedulerNode(appointmentService: AppointmentService) {
       const validation = scheduleRequiredFieldsSchema.safeParse(state);
 
       if (!validation.success) {
-        const errorMessages = validation.error.errors.map((error) => error.message).join(', ');
+        const errorMessages = validation.error.errors.map((error) => error.path.at(0) + ': ' + error.message).join(', ');
 
         console.log(`❌ Scheduling failed: ${errorMessages}`);
         return {
           actionSuccess: false,
-          actionError: errorMessages,
+          actionError: `Faltam informações obrigatórias: ${errorMessages}`,
         };
       }
 

@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { professionals } from '../../services/appointmentService.ts';
 
 export const IntentSchema = z.object({
   intent: z.enum(['schedule', 'cancel', 'unknown']).describe('The user intent'),
@@ -12,20 +11,7 @@ export const IntentSchema = z.object({
 
 export type IntentData = z.infer<typeof IntentSchema>;
 
-const tomorrowDate = () => {
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  tomorrow.setUTCHours(16, 0, 0, 0);
-  return tomorrow;
-}
-
-const todayDate = () => {
-  const today = new Date();
-  today.setUTCHours(11, 0, 0, 0);
-  return today;
-}
-
-export const getSystemPrompt = () => {
+export const getSystemPrompt = (professionals: any[]) => {
   return JSON.stringify({
     role: 'Intent Classifier for Medical Appointments',
     task: 'Identify user intent and extract all appointment-related details',
@@ -49,29 +35,43 @@ export const getSystemPrompt = () => {
       }
     },
     extraction_instructions: {
-      professionalId: 'Match the professional name mentioned in the question to the ID from the professionals list. Use fuzzy matching.',
-      professionalName: 'Extract the professional name as mentioned by the user',
-      datetime: 'Parse relative dates (today, tomorrow) and times. Convert to ISO format. Use current_date as reference.',
-      patientName: 'Extract the patient name from the question or context',
-      reason: 'Extract the reason/purpose for the appointment (only for scheduling)'
+      professionalId: 'Match the professional name mentioned to the ID from the professionals list. Use fuzzy matching. If not mentioned, omit this field.',
+      professionalName: 'Extract the professional name as mentioned by the user. If not mentioned, omit this field.',
+      datetime: 'Parse relative dates (today, tomorrow) and times. Convert to ISO format. Use current_date as reference. If not mentioned, omit this field.',
+      patientName: 'Extract the patient name from the question or context. If not mentioned, omit this field.',
+      reason: 'Extract the reason/purpose for the appointment (only for scheduling). If not mentioned, omit this field.'
     },
     examples: [
       {
-        input: 'I want to schedule with Dr. Alicio da Silva for tomorrow at 4pm for a check-up',
-        output: { intent: 'schedule', professionalId: 1, professionalName: 'Dr. Alicio da Silva', datetime: tomorrowDate().toISOString(), reason: 'check-up' }
+        input: 'human: I want to schedule with Dr. Alicio da Silva for tomorrow at 4pm for a check-up',
+        output: { intent: 'schedule', professionalId: 1, professionalName: 'Dr. Alicio da Silva', datetime: '2026-02-12T16:00:00.000Z', reason: 'check-up' }
       },
       {
-        input: 'Cancel my appointment with Dr. Ana Pereira today at 11am',
-        output: { intent: 'cancel', professionalId: 2, professionalName: 'Dr. Ana Pereira', datetime: todayDate().toISOString() }
+        input: 'human: Cancel my appointment with Dr. Ana Pereira today at 11am',
+        output: { intent: 'cancel', professionalId: 2, professionalName: 'Dr. Ana Pereira', datetime: '2026-02-11T11:00:00.000Z' }
       },
       {
-        input: 'What is the weather today?',
+        input: 'human: What is the weather today?',
         output: { intent: 'unknown' }
+      },
+      {
+        input: 'human: I want to schedule an appointment\nai: Sure, I can help with that. What is the patient name, date and doctor?\nhuman: Paciente José',
+        output: { intent: 'schedule', patientName: 'José' }
       }
     ]
   });
 };
 
-export const getUserPromptTemplate = (input: string) => {
-  return JSON.stringify({ input });
+export const getUserPromptTemplate = (conversationHistory: string) => {
+  return JSON.stringify({
+    conversationHistory,
+    instructions: [
+      'Carefully analyze the conversation history to determine the user intent',
+      'If the user is answering a question to provide missing info (like patient name), maintain the intent of the conversation (e.g. schedule or cancel)',
+      'Extract all relevant appointment details mentioned in the latest message, combining with context if necessary',
+      'Convert dates and times to ISO format',
+      'Match professional names to their IDs',
+      'Return only the fields that are clearly present or implied'
+    ]
+  });
 };

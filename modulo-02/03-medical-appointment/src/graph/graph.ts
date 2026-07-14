@@ -13,7 +13,7 @@ import { createMessageGeneratorNode } from "./nodes/messageGeneratorNode.ts";
 import { createSchedulerNode } from './nodes/schedulerNode.ts';
 
 import { z } from "zod/v3";
-import { AppointmentService } from "../services/appointmentService.ts";
+import { AppointmentService, professionals } from "../services/appointmentService.ts";
 import { OpenRouterService } from "../services/openRouterService.ts";
 
 const AppointmentStateAnnotation = z.object({
@@ -43,7 +43,7 @@ export function buildAppointmentGraph(llmClientService: OpenRouterService, appoi
   const workflow = new StateGraph({
     stateSchema: AppointmentStateAnnotation,
   })
-    .addNode('identifyIntent', createIdentifyIntentNode(llmClientService))
+    .addNode('identifyIntent', createIdentifyIntentNode(llmClientService, professionals))
     .addNode('schedule', createSchedulerNode(appointmentService))
     .addNode('cancel', createCancellerNode(appointmentService))
     .addNode('message', createMessageGeneratorNode(llmClientService))

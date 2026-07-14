@@ -11,10 +11,10 @@ export function createMessageGeneratorNode(llmClientService: OpenRouterService) 
             const hasSucceeded = state.actionSuccess ? 'success' : 'error';
             const scenario = `${state.intent ?? 'unknown'}_${hasSucceeded}`;
             const details: IUserPromptDetail = {
-                professionalName: state.professionalName!,
-                datetime: state.datetime!,
-                patientName: state.patientName!,
-                error: state.error,
+                professionalName: state.professionalName || undefined,
+                datetime: state.datetime || undefined,
+                patientName: state.patientName || undefined,
+                error: state.actionError || state.error || undefined,
             };
 
             const systemPrompt = getSystemPrompt();
