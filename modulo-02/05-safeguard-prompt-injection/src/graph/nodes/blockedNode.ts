@@ -9,12 +9,13 @@ export async function blockedNode(state: GraphState): Promise<Partial<GraphState
     ? `**Analysis:** ${guardrailCheck.analysis}`
     : '';
 
-  const permissions = state.user.permissions?.join(', ') ?? 'None';
+  const user = state.user ?? { role: 'member', displayName: 'Ana Neri', permissions: [], username: 'ananeri' };
+  const permissions = user.permissions?.join(', ') ?? 'None';
   const template = PromptTemplate.fromTemplate(prompts.blocked);
   const blockedMessage = await template.format({
     REASON: guardrailCheck.reason,
     ANALYSIS: analysis,
-    USER_ROLE: state.user.role,
+    USER_ROLE: user.role,
     PERMISSIONS: permissions,
   });
 

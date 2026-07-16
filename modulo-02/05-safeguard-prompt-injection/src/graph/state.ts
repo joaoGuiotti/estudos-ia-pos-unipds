@@ -10,10 +10,15 @@ export const SafeguardStateAnnotation = z.object({
     z.custom<BaseMessage[]>(),
     MessagesZodMeta),
 
-  user: z.custom<User>(),
+  user: z.custom<User>().default({
+    username: 'ananeri',
+    role: 'member',
+    permissions: [],
+    displayName: 'Ana Neri'
+  }),
 
   guardrailCheck: z.custom<GuardrailResult | null>().nullable().default(null),
-  guardrailsEnabled: z.boolean(),
+  guardrailsEnabled: z.boolean().default(true),
 });
 
 export type GraphState = z.infer<typeof SafeguardStateAnnotation>;
