@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "skills": {
+    "ffmpeg": {
+      "source": "digitalsamba/claude-code-video-toolkit",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/ffmpeg/SKILL.md",
+      "computedHash": "453ce416b404291eb9ae04164b68447b3f35d9fb019f924ab5b72c503b2a6dc8"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "computedHash": "6412eb4eb3b91595ebab937f0c69501240e7ba761b3d82510b5cf506ec5c7adc"
+    },
+    "neo4j-cypher-guide": {
+      "source": "tomasonjo/blogs",
+      "sourceType": "github",
+      "computedHash": "2ff7242c1f42db2643f0ba0f55549c562a6c9cdeb72d4bb4015794233e1bce4a"
+    }
+  }
+}
