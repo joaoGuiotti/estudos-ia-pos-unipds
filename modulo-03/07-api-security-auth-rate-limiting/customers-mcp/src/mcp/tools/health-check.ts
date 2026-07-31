@@ -2,18 +2,18 @@ import type { McpServer } from '@modelcontextprotocol/server'
 import type { CustomerService } from '../../application/customer-service.ts'
 import { toToolResult, toToolError } from '../helpers.ts'
 
-export function registerListCustomersTool(server: McpServer, service: CustomerService): void {
+export function registerHealthCheckTool(server: McpServer, service: CustomerService): void {
   server.registerTool(
-    'list_customers',
+    'health_check',
     {
-      title: 'List Customers',
-      description: 'List all customers',
+      title: 'Health Check',
+      description: 'Check if the Customers API is reachable',
       annotations: { readOnlyHint: true },
     },
     async () => {
       try {
-        const customers = await service.listCustomers()
-        return toToolResult(customers)
+        const result = await service.healthCheck()
+        return toToolResult(result)
       } catch (err) {
         return toToolError(err)
       }

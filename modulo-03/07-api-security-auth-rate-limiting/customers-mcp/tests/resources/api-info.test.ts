@@ -1,7 +1,7 @@
 import { describe, it, after, before } from 'node:test'
 import assert from 'node:assert'
 import { createTestClient, getServiceToken } from '../helpers.ts'
-import { Client } from '@modelcontextprotocol/sdk/client'
+import type { Client } from '@modelcontextprotocol/client'
 
 describe('Customer Resources', async () => {
   let client: Client

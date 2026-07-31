@@ -1,6 +1,6 @@
-# @jguiottidev/ciphersuite-mcp
+# @jguiottidev/ew-customers-mcp
 
-An [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that provides AES-256-CBC encryption and decryption tools, a resource describing the algorithm, and ready-to-use prompts — all runnable directly inside VS Code Copilot Chat.
+An [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that wraps a Customers CRUD REST API into MCP tools, resources, and prompts — ready to use inside VS Code Copilot Chat and other MCP-compatible agents.
 
 ---
 
@@ -8,24 +8,26 @@ An [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that p
 
 | Capability | Name | Description |
 |---|---|---|
-| 🔧 Tool | `encrypt_message` | Encrypts any plain-text message with a passphrase |
-| 🔧 Tool | `decrypt_message` | Decrypts a previously encrypted message with the same passphrase |
-| 📄 Resource | `encryption://info` | Returns details about the algorithm, key derivation, and output format |
-| 💬 Prompt | `encrypt_message_prompt` | Pre-built prompt that asks the agent to encrypt a message |
-| 💬 Prompt | `decrypt_message_prompt` | Pre-built prompt that asks the agent to decrypt a message |
+| 🔧 Tool | `health_check` | Check if the Customers API is reachable |
+| 🔧 Tool | `list_customers` | List all customers |
+| 🔧 Tool | `get_customer` | Find a customer by `_id`, `name`, or `phone` |
+| 🔧 Tool | `create_customer` | Create a new customer |
+| 🔧 Tool | `update_customer` | Update an existing customer's name and/or phone |
+| 🔧 Tool | `delete_customer` | Delete a customer by `_id` |
+| 📄 Resource | `customers://api-info` | Describes the Customers REST API endpoints |
+| 💬 Prompt | `create_customer_prompt` | Prompt template for creating a customer |
+| 💬 Prompt | `find_customer_prompt` | Prompt template for searching a customer |
 
-### How encryption works
+### Authentication
 
-- **Algorithm**: AES-256-CBC
-- **Key derivation**: `scrypt(passphrase, fixedSalt, 32)` — you pass any passphrase string; the server derives a strong 32-byte key automatically
-- **Output format**: `<IV in hex>:<ciphertext in hex>` — keep the full string to decrypt later
-- **IV**: a fresh random 16-byte IV is generated on every encryption call, so the same message encrypted twice produces different output
+The MCP server authenticates against the Customers API using a **service token**. Set the `SERVICE_TOKEN` environment variable with a token obtained from `POST /v1/auth/service-token`.
 
 ---
 
 ## Prerequisites
 
 - **Node.js v24+** (see `engines` in `package.json`)
+- A running instance of the [Customers API](https://github.com/jguiottidev/modulo-3-crud-mcp) at `http://localhost:9999`
 
 ---
 
@@ -39,6 +41,21 @@ No build step is needed — the server runs TypeScript directly via Node.js nati
 
 ---
 
+## Configuration
+
+Copy `.env.example` to `.env` and fill in the values:
+
+```bash
+cp .env.example .env
+```
+
+| Variable | Default | Description |
+|---|---|---|
+| `CUSTOMERS_API_URL` | `http://localhost:9999/v1` | Base URL of the Customers API |
+| `SERVICE_TOKEN` | — | Service token for API authentication |
+
+---
+
 ## Using in VS Code
 
 ### 1. Add the MCP server configuration
@@ -48,46 +65,36 @@ Create (or open) `.vscode/mcp.json` in your workspace and add:
 ```json
 {
   "servers": {
-    "ciphersuite-mcp": {
+    "customers-mcp": {
       "command": "node",
-      "args": ["--experimental-strip-types", "ABSOLUTE_PATH_TO_PROJECT/src/index.ts"]
+      "args": ["--experimental-strip-types", "./src/index.ts"],
+      "env": {
+        "CUSTOMERS_API_URL": "http://localhost:9999/v1",
+        "SERVICE_TOKEN": "<your-service-token>"
+      }
     }
   }
 }
 ```
-
-or via npm
-```json
-{
-  "servers": {
-    "ciphersuite-mcp": {
-      "command": "npx",
-      "args": ["-y", "@erickwendel/ciphersuite-mcp"]
-    }
-  }
-}
-```
-
-> **Tip:** You can also add this server to your user-level MCP config at `~/.vscode/mcp.json` to make it available in every workspace.
 
 ### 2. Reload VS Code
 
-Open the Command Palette (`Cmd+Shift+P`) and run **Developer: Reload Window** (or just restart VS Code).
+Open the Command Palette (`Cmd+Shift+P`) and run **Developer: Reload Window**.
 
 ### 3. Use it in Copilot Chat
 
 Open Copilot Chat (Agent mode) and try:
 
 ```
-Encrypt the message "Hello, World!" using the passphrase "my-secret-key"
+List all customers
 ```
 
 ```
-Decrypt this message: a3f1...:<ciphertext> using the passphrase "my-secret-key"
+Create a customer named "John Doe" with phone "123456789"
 ```
 
 ```
-Show me the encryption://info resource
+Find customer with name "John Doe"
 ```
 
 The agent will automatically call the appropriate tool and return the result.
@@ -96,34 +103,23 @@ The agent will automatically call the appropriate tool and return the result.
 
 ## Running the MCP Inspector
 
-The MCP Inspector lets you explore and test all tools, resources, and prompts interactively in a browser UI:
-
 ```bash
 npm run mcp:inspect
 ```
 
-This opens the inspector at `http://localhost:5173` and connects it to the running server.
+Opens the inspector at `http://localhost:5173`.
 
 ---
 
 ## Running tests
 
 ```bash
-# Run all tests once
+# Run all tests
 npm test
 
-# Run tests in watch mode (with debugger)
+# Run tests in watch mode
 npm run test:dev
 ```
-
-The test suite covers:
-
-- Encrypting a message
-- Decrypting a message with the correct passphrase
-- Listing and reading the `encryption://info` resource
-- Fetching both prompts
-- Error: decrypting with the wrong passphrase
-- Error: decrypting a malformed ciphertext
 
 ---
 
@@ -131,10 +127,29 @@ The test suite covers:
 
 ```
 src/
-  index.ts   # Entry point — connects the server to stdio transport
-  mcp.ts     # All tools, resources, and prompts are registered here
+  index.ts              # Entry point — connects the server to stdio transport
+  config.ts             # Environment configuration
+  domain/
+    customer.ts         # Zod schemas and types for Customer
+    errors.ts           # Domain error classes
+  application/
+    customer-service.ts # Business logic layer
+  infrastructure/
+    customer-http-client.ts # HTTP client for the Customers API
+  mcp/
+    server.ts           # MCP server setup and tool/resource/prompt registration
+    tools/              # Tool registration functions
+    resources/          # Resource registration
+    prompts/            # Prompt registration
+    helpers.ts          # Shared helpers for tool responses
 tests/
-  mcp.test.ts
+  helpers.ts            # Test client factory
+  domain/               # Unit tests for domain schemas
+  application/          # Unit tests for application service
+  infrastructure/       # Unit tests for HTTP client
+  tools/                # E2E tests for MCP tools
+  resources/            # E2E tests for MCP resources
+  prompts/              # Tests for MCP prompts
 ```
 
 ---
@@ -148,3 +163,7 @@ tests/
 | `npm test` | Run all tests |
 | `npm run test:dev` | Run tests in watch mode |
 | `npm run mcp:inspect` | Open the MCP Inspector UI |
+
+## License
+
+ISC

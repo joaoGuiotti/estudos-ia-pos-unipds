@@ -11,15 +11,16 @@
   ],
   "scripts": {
     "build": "chmod 755 src/index.ts",
-    "start": "node src/index.ts",
-    "dev": "node --watch --inspect src/index.ts",
-    "test": "node --test tests/**/*.test.ts",
-    "mcp:inspect": "npx @modelcontextprotocol/inspector node src/index.ts",
-    "test:dev": "node --inspect --test --watch tests/**/*.test.ts",
-    "test:unit:dev": "node --inspect --test --watch tests/**/*unit.test.ts",
-    "test:unit": "node --inspect --test tests/**/*unit.test.ts",
-    "test:e2e:dev": "node --inspect --test --watch tests/**/*e2e.test.ts",
-    "test:e2e": "node --inspect --test tests/**/*e2e.test.ts"
+    "start": "node --experimental-strip-types src/index.ts",
+    "dev": "node --experimental-strip-types --watch --inspect src/index.ts",
+    "test": "node --experimental-strip-types --test tests/**/*.test.ts",
+    "mcp:inspect": "npx @modelcontextprotocol/inspector node --experimental-strip-types src/index.ts",
+    "test:dev": "node --experimental-strip-types --inspect --test --watch tests/**/*.test.ts",
+    "test:unit:dev": "node --experimental-strip-types --inspect --test --watch tests/**/*unit.test.ts",
+    "test:unit": "node --experimental-strip-types --inspect --test tests/**/*unit.test.ts",
+    "test:e2e:dev": "node --experimental-strip-types --inspect --test --watch tests/**/*e2e.test.ts",
+    "test:e2e": "node --experimental-strip-types --inspect --test tests/**/*e2e.test.ts",
+    "typecheck": "npx tsc --noEmit"
   },
   "keywords": [],
   "author": "jguiottidev",
@@ -28,9 +29,13 @@
   "engines": {
     "node": "v24.14.0"
   },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "^2.0.0",
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2",
+    "zod": "^4.4.3"
+  },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.27.1",
-    "@types/node": "^24.11.0",
-    "zod": "^3.25.76"
+    "@modelcontextprotocol/server": "^2.0.0"
   }
 }

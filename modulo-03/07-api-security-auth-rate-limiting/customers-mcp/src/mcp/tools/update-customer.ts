@@ -1,36 +1,31 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { CustomerService } from "../../application/customer-service.ts";
-import { CustomerMutationSchema, CustomerUpdateSchema } from "../../domain/customer.ts";
+import type { McpServer } from '@modelcontextprotocol/server'
+import { z } from 'zod/v4'
+import type { CustomerService } from '../../application/customer-service.ts'
+import { toToolResult, toToolError } from '../helpers.ts'
 
-export function registerUpdateCustomerTool(
-    server: McpServer,
-    service: CustomerService
-): void {
-    server.registerTool(
-        "update_customer",
-        {
-            description:
-                "Update an existing customer's name and/or phone number by their _id",
-            inputSchema: CustomerUpdateSchema.shape,
-            outputSchema: CustomerMutationSchema.shape,
-        },
-        async ({ _id, name, phone }) => {
-            try {
-                const result = await service.updateCustomer(_id, {
-                    name,
-                    phone,
-                });
-                return {
-                    content: [{ type: "text", text: result.message ?? "" }],
-                    structuredContent: result,
-                };
-            } catch (err) {
-                const message = `Failed to update customer. Error: ${err instanceof Error ? err.message : String(err)}`;
-                return {
-                    content: [{ type: "text", text: message }],
-                    structuredContent: { isError: true, message },
-                };
-            }
-        }
-    );
+export function registerUpdateCustomerTool(server: McpServer, service: CustomerService): void {
+  server.registerTool(
+    'update_customer',
+    {
+      title: 'Update Customer',
+      description: "Update an existing customer's name and/or phone number by their _id",
+      inputSchema: z.object({
+        _id: z.string().describe('MongoDB ObjectId of the customer to update'),
+        name: z.string().optional().describe('New name of the customer'),
+        phone: z.string().optional().describe('New phone number of the customer'),
+      }),
+      annotations: { idempotentHint: true },
+    },
+    async ({ _id, name, phone }) => {
+      try {
+        const data: Record<string, string> = {}
+        if (name !== undefined) data.name = name
+        if (phone !== undefined) data.phone = phone
+        const result = await service.updateCustomer(_id, data)
+        return toToolResult(result)
+      } catch (err) {
+        return toToolError(err)
+      }
+    },
+  )
 }

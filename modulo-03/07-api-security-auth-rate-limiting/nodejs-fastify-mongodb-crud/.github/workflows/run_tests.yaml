@@ -3,7 +3,7 @@ name: Run tests
 on:
   push:
     paths:
-      - '**.js'
+      - '**.ts'
       - '**.json'
       - '**.yaml'
     branches:
@@ -24,16 +24,16 @@ jobs:
             sudo chmod +x /usr/local/bin/docker-compose
             docker-compose --version
 
-        - name: Start Postgres and Adminer
+        - name: Start MongoDB
           run: docker-compose up -d mongodb
 
         - name: Use Node.js
           uses: actions/setup-node@v4
           with:
-            node-version: 20
+            node-version: 22
 
-        - name: Restore Dependencies for web-api
+        - name: Restore Dependencies
           run: npm ci
 
-        - name: Run Tests for app/web-api
+        - name: Run Tests
           run: npm test

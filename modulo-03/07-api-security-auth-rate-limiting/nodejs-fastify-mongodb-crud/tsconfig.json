@@ -2,9 +2,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
-    "lib": [
-      "ES2022"
-    ],
+    "lib": ["ES2022"],
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "noEmit": true,
@@ -15,13 +13,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
-    "types": [
-      "node"
-    ]
+    "types": ["node"]
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    ".vscode"
-  ]
+  "include": ["src/**/*.ts", "test/**/*.ts", "config/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }
