@@ -1,0 +1,52 @@
+{
+    "EMPTY_CONTACTS": {
+        "title": "Nenhuma chave salva",
+        "message": "Não localizamos contatos salvos. Insira uma Chave Pix para realizar a transferência.",
+        "action_label": "Inserir Chave Pix"
+    },
+    "LIMIT_EXCEEDED": {
+        "title": "Limite diário excedido",
+        "message": "O valor ultrapassa o limite de R$ 5.000,00 para esta data. Tente diminuir o valor do agendamento.",
+        "action_label": "Ajustar valor"
+    },
+    "INSUFFICIENT_BALANCE_WARNING": {
+        "title": "Saldo atual insuficiente",
+        "message": "Lembre-se de adicionar saldo até a data do agendamento para garantir a liquidação da transferência.",
+        "action_label": "Continuar"
+    },
+    "AUTH_ERROR": {
+        "title": "Senha não reconhecida",
+        "message": "Não foi possível validar a sua senha. Verifique os números e tente realizar o agendamento novamente.",
+        "action_label": "Tentar novamente"
+    },
+    "CREATE_TIMEOUT_ERROR": {
+        "title": "Conexão instável",
+        "message": "Não foi possível processar o agendamento agora. Verifique sua conexão e tente em alguns instantes.",
+        "action_label": "Tentar novamente"
+    },
+    "CREATE_SUCCESS": {
+        "title": "Agendamento confirmado",
+        "message": "A transferência foi agendada com sucesso. Você pode acompanhar o status nos seus lançamentos.",
+        "action_label": "Ver comprovante"
+    },
+    "EMPTY_SCHEDULES": {
+        "title": "Nenhum agendamento",
+        "message": "Não há transferências agendadas para os próximos dias. Quando precisar, é só iniciar um novo fluxo.",
+        "action_label": "Agendar transferência"
+    },
+    "CANCEL_FORBIDDEN": {
+        "title": "Agendamento em processamento",
+        "message": "Esta transferência já está em andamento e não pode ser cancelada. Acompanhe a situação no extrato.",
+        "action_label": "Acessar extrato"
+    },
+    "CANCEL_ERROR": {
+        "title": "Não foi possível cancelar",
+        "message": "Ocorreu uma instabilidade ao cancelar este agendamento. Aguarde alguns minutos e tente novamente.",
+        "action_label": "Tentar novamente"
+    },
+    "CANCEL_SUCCESS": {
+        "title": "Agendamento cancelado",
+        "message": "A transferência programada foi cancelada com sucesso. O valor não será debitado da sua conta.",
+        "action_label": "Voltar ao início"
+    }
+}

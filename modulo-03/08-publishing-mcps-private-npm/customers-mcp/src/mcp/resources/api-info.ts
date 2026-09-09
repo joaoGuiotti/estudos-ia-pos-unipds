@@ -1,0 +1,33 @@
+import type { McpServer } from '@modelcontextprotocol/server'
+
+export function registerApiInfoResource(server: McpServer, baseUrl: string): void {
+  server.registerResource(
+    'customers-api-info',
+    'customers://api-info',
+    {
+      title: 'Customers API Info',
+      description: 'Describes the Customers REST API that this MCP server wraps.',
+      mimeType: 'text/plain',
+    },
+    async () => ({
+      contents: [
+        {
+          uri: 'customers://api-info',
+          mimeType: 'text/plain',
+          text: [
+            `Customers API`,
+            `  Base URL : ${baseUrl}`,
+            `  Endpoints:`,
+            `    GET    /customers          — list all customers`,
+            `    GET    /customers/:id      — get customer by id`,
+            `    POST   /customers          — create customer  { name, phone }`,
+            `    PUT    /customers/:id      — update customer  { name, phone }`,
+            `    DELETE /customers/:id      — delete customer`,
+            ``,
+            `  Customer shape: { _id: string, name: string, phone: string }`,
+          ].join('\n'),
+        },
+      ],
+    }),
+  )
+}

@@ -1,0 +1,46 @@
+{
+  "name": "@jguiottidev/customers-mcp",
+  "version": "0.0.3",
+  "description": "MCP server that exposes a customer CRUD API as tools for use with GitHub Copilot and other MCP-compatible agents",
+  "main": "index.js",
+  "bin": {
+    "customers-mcp": "./src/index.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "build": "chmod 755 src/index.ts",
+    "start": "node --experimental-strip-types src/index.ts",
+    "dev": "node --experimental-strip-types --watch --inspect src/index.ts",
+    "test": "node --experimental-strip-types --test tests/**/*.test.ts",
+    "mcp:inspect": "npx @modelcontextprotocol/inspector node --experimental-strip-types src/index.ts",
+    "test:dev": "node --experimental-strip-types --inspect --test --watch tests/**/*.test.ts",
+    "test:unit:dev": "node --experimental-strip-types --inspect --test --watch tests/**/*unit.test.ts",
+    "test:unit": "node --experimental-strip-types --inspect --test tests/**/*unit.test.ts",
+    "test:e2e:dev": "node --experimental-strip-types --inspect --test --watch tests/**/*e2e.test.ts",
+    "test:e2e": "node --experimental-strip-types --inspect --test tests/**/*e2e.test.ts",
+    "typecheck": "npx tsc --noEmit",
+    "registry:start": "docker compose up -d",
+    "registry:stop": "docker compose down",
+    "registry:login:private": "npm login --registry http://localhost:4873",
+    "release:private": "npm version patch && npm publish --registry http://localhost:4873"
+  },
+  "keywords": [],
+  "author": "jguiottidev",
+  "license": "ISC",
+  "type": "module",
+  "engines": {
+    "node": "v24.14.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/client": "^2.0.0",
+    "@modelcontextprotocol/server": "^2.0.0",
+    "tsx": "^4.23.5",
+    "zod": "^4.4.3"
+  }
+}

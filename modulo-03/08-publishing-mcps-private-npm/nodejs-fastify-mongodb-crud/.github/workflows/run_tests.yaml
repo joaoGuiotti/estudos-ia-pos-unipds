@@ -1,0 +1,39 @@
+name: Run tests
+
+on:
+  push:
+    paths:
+      - '**.ts'
+      - '**.json'
+      - '**.yaml'
+    branches:
+      - main
+concurrency:
+  group: staging_environment
+  cancel-in-progress: true
+
+jobs:
+  setup-and-test-app:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+        - name: Install Docker Compose
+          run: |
+            sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+            docker-compose --version
+
+        - name: Start MongoDB
+          run: docker-compose up -d mongodb
+
+        - name: Use Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: 22
+
+        - name: Restore Dependencies
+          run: npm ci
+
+        - name: Run Tests
+          run: npm test

@@ -1,0 +1,26 @@
+[
+    {
+        "ticket_id": "TKT-101",
+        "original_ref": "tkt_01",
+        "category": "BUG_CRITICO",
+        "severity": "ALTA",
+        "user_pain": "Usuário enfrenta tela branca ao tentar realizar Pix, impedindo a transação.",
+        "proposed_action": "Investigar race conditions no fluxo do Pix e implementar tratamento de erro global para evitar telas brancas (Fallback UI)."
+    },
+    {
+        "ticket_id": "TKT-102",
+        "original_ref": "tkt_05",
+        "category": "BUG_CRITICO",
+        "severity": "ALTA",
+        "user_pain": "Crash do aplicativo ao selecionar o dia 31 em meses de 30 dias na funcionalidade de agendamento.",
+        "proposed_action": "Corrigir lógica de validação de data no DatePicker e adicionar testes unitários para casos de borda de calendário."
+    },
+    {
+        "ticket_id": "TKT-103",
+        "original_ref": "tkt_06",
+        "category": "UX_UI_IMPROVEMENT",
+        "severity": "MEDIA",
+        "user_pain": "Dificuldade em localizar o comprovante de transferência após mudanças na interface.",
+        "proposed_action": "Redesenhar o fluxo pós-transferência para incluir um botão de atalho direto para o comprovante na tela de sucesso."
+    }
+]
