@@ -1,0 +1,76 @@
+<section class="pix-transfer-container" aria-labelledby="pix-section-title">
+  <header class="pix-header">
+    <div class="header-titles">
+      <h2 id="pix-section-title" class="pix-title">Transferência Pix</h2>
+      <p class="pix-subtitle">Envie dinheiro de forma instantânea ou agendada com segurança.</p>
+    </div>
+
+    <div class="balance-card" aria-label="Saldo em conta">
+      <span class="balance-label">Saldo em conta</span>
+      <strong class="balance-value">{{ facade.saldo() | currency:'BRL':'symbol':'1.2-2' }}</strong>
+    </div>
+  </header>
+
+  @if (facade.isError() && facade.mensagemErro(); as erro) {
+    <div
+      #feedbackAlert
+      class="feedback-alert feedback-alert--error"
+      role="alert"
+      aria-live="assertive"
+      tabindex="-1"
+    >
+      <div class="alert-content">
+        <span class="alert-icon" aria-hidden="true">⚠️</span>
+        <div>
+          <strong class="alert-title">Não foi possível concluir</strong>
+          <p class="alert-message">{{ erro }}</p>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn-dismiss"
+        (click)="fecharFeedback()"
+        aria-label="Fechar mensagem de erro (ou pressione tecla Escape)"
+      >
+        <span aria-hidden="true">✕</span>
+      </button>
+    </div>
+  }
+
+  @if (facade.isSuccess() && facade.ultimoRecibo(); as recibo) {
+    <div
+      #feedbackAlert
+      class="feedback-alert feedback-alert--success"
+      role="status"
+      aria-live="polite"
+      tabindex="-1"
+    >
+      <div class="alert-content">
+        <span class="alert-icon alert-icon--success" aria-hidden="true">✓</span>
+        <div>
+          <strong class="alert-title">Transferência Realizada com Sucesso!</strong>
+          <p class="alert-message">
+            Valor de <strong>{{ recibo.valor | currency:'BRL':'symbol':'1.2-2' }}</strong> para a chave <strong>{{ recibo.chave }}</strong>.
+          </p>
+          <p class="receipt-id">ID: {{ recibo.id }} | Autenticação: {{ recibo.autenticacao }}</p>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn-dismiss"
+        (click)="fecharFeedback()"
+        aria-label="Fechar comprovante de sucesso (ou pressione tecla Escape)"
+      >
+        <span aria-hidden="true">✕</span>
+      </button>
+    </div>
+  }
+
+  <div class="form-wrapper">
+    <app-pix-transfer-form
+      [isLoading]="facade.isLoading()"
+      [isSuccess]="facade.isSuccess()"
+      (transferir)="onTransferir($event)"
+    />
+  </div>
+</section>

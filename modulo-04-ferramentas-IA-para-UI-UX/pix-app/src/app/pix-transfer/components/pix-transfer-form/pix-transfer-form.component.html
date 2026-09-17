@@ -1,0 +1,93 @@
+<form [formRoot]="pixForm" (submit)="submeter($event)" class="pix-form" novalidate>
+  <fieldset class="form-fieldset">
+    <legend class="form-legend">Dados da Transferência</legend>
+
+    <div class="form-group">
+      <label for="chavePix" class="form-label">
+        Chave Pix <span class="required-indicator" aria-hidden="true">*</span>
+      </label>
+      <div class="input-wrapper">
+        <input
+          type="text"
+          id="chavePix"
+          class="form-input"
+          [formField]="pixForm.chave"
+          placeholder="CPF, e-mail, telefone ou chave aleatória"
+          autocomplete="off"
+          aria-required="true"
+          [attr.aria-invalid]="pixForm.chave().invalid() && pixForm.chave().touched()"
+          [attr.aria-describedby]="(pixForm.chave().invalid() && pixForm.chave().touched()) ? 'chavePixError chavePixHint' : 'chavePixHint'"
+        />
+      </div>
+      <span id="chavePixHint" class="form-hint">Informe CPF, e-mail, telefone ou chave aleatória.</span>
+      @if (pixForm.chave().invalid() && pixForm.chave().touched()) {
+        <span id="chavePixError" class="field-error" role="alert">
+          A chave Pix é obrigatória para realizar a transferência.
+        </span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="valorPix" class="form-label">
+        Valor (R$) <span class="required-indicator" aria-hidden="true">*</span>
+      </label>
+      <div class="input-wrapper">
+        <input
+          type="number"
+          id="valorPix"
+          class="form-input"
+          [formField]="pixForm.valor"
+          step="0.01"
+          placeholder="0,00"
+          aria-required="true"
+          [attr.aria-invalid]="pixForm.valor().invalid() && pixForm.valor().touched()"
+          [attr.aria-describedby]="(pixForm.valor().invalid() && pixForm.valor().touched()) ? 'valorPixError valorPixHint' : 'valorPixHint'"
+        />
+      </div>
+      <span id="valorPixHint" class="form-hint">Valor mínimo de R$ 0,01.</span>
+      @if (pixForm.valor().invalid() && pixForm.valor().touched()) {
+        <span id="valorPixError" class="field-error" role="alert">
+          Informe um valor válido maior ou igual a R$ 0,01.
+        </span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="dataAgendamento" class="form-label">
+        Data de Transferência <span class="required-indicator" aria-hidden="true">*</span>
+      </label>
+      <div class="input-wrapper">
+        <input
+          type="date"
+          id="dataAgendamento"
+          class="form-input"
+          [formField]="pixForm.data"
+          aria-required="true"
+          [attr.aria-invalid]="pixForm.data().invalid() && pixForm.data().touched()"
+          [attr.aria-describedby]="(pixForm.data().invalid() && pixForm.data().touched()) ? 'dataAgendamentoError' : null"
+        />
+      </div>
+      @if (pixForm.data().invalid() && pixForm.data().touched()) {
+        <span id="dataAgendamentoError" class="field-error" role="alert">
+          Informe a data desejada para a transferência.
+        </span>
+      }
+    </div>
+  </fieldset>
+
+  <div class="form-actions">
+    <button
+      type="submit"
+      class="btn-submit"
+      [disabled]="isLoading() || pixForm().invalid()"
+      [attr.aria-busy]="isLoading()"
+    >
+      @if (isLoading()) {
+        <span class="spinner" aria-hidden="true"></span>
+        <span>Processando Transferência...</span>
+      } @else {
+        <span>Confirmar Transferência</span>
+      }
+    </button>
+  </div>
+</form>

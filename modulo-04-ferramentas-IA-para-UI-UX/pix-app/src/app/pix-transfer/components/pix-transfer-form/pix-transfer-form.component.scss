@@ -1,0 +1,181 @@
+.pix-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.form-fieldset {
+  border: var(--border-width-thin) solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  background-color: var(--color-background);
+  transition: border-color var(--transition-normal);
+}
+
+.form-legend {
+  font-family: var(--font-family-title);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-text);
+  padding: 0 var(--spacing-sm);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-base);
+  margin-top: var(--spacing-md);
+
+  &:first-of-type {
+    margin-top: var(--spacing-sm);
+  }
+}
+
+.form-label {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-base);
+}
+
+.required-indicator {
+  color: var(--color-error);
+  font-weight: 700;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--spacing-md);
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-base);
+  color: var(--color-text-light);
+  background-color: var(--color-background-light);
+  border: var(--border-width-input) solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
+
+  &::placeholder {
+    color: var(--color-primary);
+    opacity: 0.75;
+  }
+
+  &::-webkit-datetime-edit {
+    color: var(--color-text-light);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-action-primary);
+    box-shadow: 0 0 0 var(--border-width-focus) var(--color-action-primary);
+  }
+
+  &[aria-invalid="true"] {
+    border-color: var(--color-error);
+  }
+
+  &:invalid:focus,
+  &[aria-invalid="true"]:focus {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 var(--border-width-focus) var(--color-error);
+  }
+}
+
+.form-hint {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-xs);
+  color: var(--color-text);
+  opacity: 0.8;
+}
+
+.field-error {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-xs);
+  color: var(--color-error);
+  font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+  :host-context([data-theme="dark"]) .form-input,
+  .form-input {
+    color: var(--color-text-dark);
+    background-color: var(--color-background-dark);
+    border-color: var(--color-accent);
+
+    &::placeholder {
+      color: var(--color-text-dark);
+      opacity: 0.75;
+    }
+
+    &::-webkit-datetime-edit {
+      color: var(--color-text-dark);
+    }
+
+    &::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+    }
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-family: var(--font-family-title);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-primary);
+  background-color: var(--color-action-primary);
+  border: var(--border-width-md) solid var(--color-action-primary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: transform var(--transition-fast), filter var(--transition-fast), opacity var(--transition-fast);
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.08);
+    transform: translateY(calc(var(--spacing-base) * -0.5));
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.spinner {
+  width: var(--icon-size-sm);
+  height: var(--icon-size-sm);
+  border: var(--border-width-md) solid var(--color-primary);
+  border-top-color: transparent;
+  border-radius: var(--radius-full);
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+

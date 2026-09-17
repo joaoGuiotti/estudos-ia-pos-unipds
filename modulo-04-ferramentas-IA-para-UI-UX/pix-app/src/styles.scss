@@ -1,0 +1,96 @@
+/* You can add global styles to this file, and also import other style files */
+
+:root {
+  /* Cores de Marca e Ação */
+  --color-primary: #0A192F;
+  --color-accent: #64FFDA;
+  --color-action-primary: var(--color-accent);
+
+  /* Feedback / Status */
+  --color-error: #FF6B6B;
+
+  /* Cores de Fundo / Superfície */
+  --color-background-light: #F8F9FA;
+  --color-background-dark: #112240;
+  --color-background: var(--color-background-light);
+
+  /* Cores de Texto */
+  --color-text-light: #112240;
+  --color-text-dark: #FFFFFF;
+  --color-text: var(--color-text-light);
+
+  /* Tipografia - Famílias de Fonte */
+  --font-family-title: 'Montserrat', sans-serif;
+  --font-family-body: 'Inter', sans-serif;
+
+  /* Escala de Espaçamento (Base 4px) */
+  --spacing-base: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* Raios de Borda */
+  --radius-xs: 2px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-full: 50%;
+
+  /* Espessuras de Borda */
+  --border-width-thin: 1px;
+  --border-width-input: 1.5px;
+  --border-width-md: 2px;
+  --border-width-focus: 3px;
+  --border-width-thick: 4px;
+
+  /* Dimensões e Layout */
+  --container-max-width: 720px;
+  --icon-size-sm: 16px;
+  --icon-size-md: 24px;
+
+  /* Escala Tipográfica */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-md: 1.125rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.75rem;
+
+  /* Transições */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-theme: 0.3s ease;
+
+  /* Suporte Nativo a Temas no Navegador */
+  @media (prefers-color-scheme: dark) {
+    --color-background: var(--color-background-dark);
+    --color-text: var(--color-text-dark);
+  }
+
+  &[data-theme="dark"] {
+    --color-background: var(--color-background-dark);
+    --color-text: var(--color-text-dark);
+  }
+
+  &[data-theme="light"] {
+    --color-background: var(--color-background-light);
+    --color-text: var(--color-text-light);
+  }
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-body);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
