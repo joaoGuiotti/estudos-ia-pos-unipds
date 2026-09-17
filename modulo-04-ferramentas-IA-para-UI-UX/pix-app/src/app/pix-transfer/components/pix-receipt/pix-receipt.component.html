@@ -1,0 +1,162 @@
+<div class="pix-receipt-wrapper">
+  <!-- Barra de Ações Superior -->
+  <header class="receipt-header">
+    <div class="receipt-brand">
+      <div class="brand-badge" aria-hidden="true">
+        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </svg>
+      </div>
+      <span class="brand-title">
+        PixPay <span class="brand-tag">Comprovante</span>
+      </span>
+    </div>
+
+    <div class="header-actions">
+      <button
+        type="button"
+        class="action-btn"
+        (click)="imprimir()"
+        aria-label="Imprimir comprovante Pix"
+      >
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="6 9 6 2 18 2 18 9" />
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+          <rect x="6" y="14" width="12" height="8" />
+        </svg>
+        <span>Imprimir</span>
+      </button>
+
+      <button
+        type="button"
+        class="action-btn"
+        (click)="compartilhar()"
+        aria-label="Compartilhar comprovante Pix"
+      >
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="18" cy="5" r="3" />
+          <circle cx="6" cy="12" r="3" />
+          <circle cx="18" cy="19" r="3" />
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+        </svg>
+        <span>Compartilhar</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Card Central do Comprovante -->
+  <main class="receipt-card-container">
+    <article class="receipt-card" aria-labelledby="receipt-heading">
+      <!-- Linha Decorativa Superior -->
+      <div class="card-accent-bar" aria-hidden="true"></div>
+
+      <!-- Cabeçalho de Status e Valor -->
+      <section class="receipt-status-section">
+        <div class="status-icon-bubble" aria-hidden="true">
+          <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </div>
+
+        <div class="status-badge" role="status">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>Transferência Concluída</span>
+        </div>
+
+        <h1 id="receipt-heading" class="receipt-amount">
+          {{ valorExibicao() | currency:'BRL':'symbol':'1.2-2' }}
+        </h1>
+
+        <p class="receipt-timestamp">
+          Pago via Pix em {{ dataExibicao() | date:"dd 'de' MMMM 'de' yyyy, 'às' HH:mm" }}
+        </p>
+      </section>
+
+      <!-- Divisor -->
+      <hr class="receipt-divider" aria-hidden="true" />
+
+      <!-- Seção de Detalhes do Favorecido e Transação -->
+      <section class="receipt-details-section" aria-label="Detalhes da operação Pix">
+        <h2 class="details-heading">Detalhes do Recebedor</h2>
+
+        <!-- Card do Recebedor -->
+        <div class="receiver-box">
+          <div class="receiver-info">
+            <div class="receiver-avatar" aria-hidden="true">
+              {{ iniciais() }}
+            </div>
+            <div class="receiver-texts">
+              <strong class="receiver-name">{{ nome() }}</strong>
+              <span class="receiver-key">Chave Pix: {{ chaveExibicao() }}</span>
+            </div>
+          </div>
+          <span class="account-badge">{{ tipoConta() }}</span>
+        </div>
+
+        <!-- Grid de Metadados -->
+        <div class="metadata-grid">
+          <div class="metadata-item">
+            <span class="metadata-label">Instituição Destino</span>
+            <strong class="metadata-value">{{ instituicao() }}</strong>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">ID da Transação</span>
+            <strong class="metadata-value metadata-value--mono" [title]="idTransacaoExibicao()">
+              {{ idTransacaoExibicao() }}
+            </strong>
+          </div>
+        </div>
+
+        <!-- Bloco de Autenticação Bancária -->
+        <div class="auth-box">
+          <div class="auth-info">
+            <span class="auth-label">Autenticação Bancária</span>
+            <code class="auth-code">{{ autenticacaoExibicao() }}</code>
+          </div>
+          <button
+            type="button"
+            class="copy-btn"
+            [class.copy-btn--copied]="copiado()"
+            (click)="copiarAutenticacao()"
+            [attr.aria-label]="copiado() ? 'Código de autenticação copiado' : 'Copiar código de autenticação'"
+          >
+            @if (copiado()) {
+              <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span>Copiado!</span>
+            } @else {
+              <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+              </svg>
+              <span>Copiar</span>
+            }
+          </button>
+        </div>
+      </section>
+
+      <!-- Ação Principal -->
+      <footer class="receipt-footer-action">
+        <button
+          type="button"
+          class="btn-return"
+          (click)="onVoltar()"
+          aria-label="Voltar para a página inicial de transferências"
+        >
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+          <span>Voltar ao início</span>
+        </button>
+      </footer>
+    </article>
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="receipt-legal-footer">
+    <p>PixPay Secure Financial Technologies &bull; Todos os direitos reservados</p>
+  </footer>
+</div>

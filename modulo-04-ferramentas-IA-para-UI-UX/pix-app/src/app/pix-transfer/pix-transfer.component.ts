@@ -1,12 +1,13 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, ElementRef, inject, viewChild } from '@angular/core';
+import { PixReceiptComponent } from './components/pix-receipt/pix-receipt.component';
 import { PixTransferFormComponent } from './components/pix-transfer-form/pix-transfer-form.component';
 import { PixFacade } from './facade/pix.facade';
 import { PixTransferData } from './models/pix.model';
 
 @Component({
   selector: 'app-pix-transfer',
-  imports: [PixTransferFormComponent, CurrencyPipe],
+  imports: [PixTransferFormComponent, PixReceiptComponent, CurrencyPipe],
   templateUrl: './pix-transfer.component.html',
   styleUrl: './pix-transfer.component.scss',
   host: {
