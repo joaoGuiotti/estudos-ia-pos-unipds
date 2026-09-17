@@ -10,14 +10,16 @@ import { PixTransferData } from './models/pix.model';
   templateUrl: './pix-transfer.component.html',
   styleUrl: './pix-transfer.component.scss',
   host: {
-    '(window:keydown.escape)': 'fecharFeedback()',
+    '(window:keydown.escape)': 'onKeydownEscape($event)',
   },
 })
 export class PixTransferComponent {
   protected readonly facade = inject(PixFacade);
   private readonly feedbackAlert = viewChild<ElementRef<HTMLElement>>('feedbackAlert');
+  private lastActiveElement: HTMLElement | null = null;
 
   async onTransferir(dados: PixTransferData): Promise<void> {
+    this.lastActiveElement = typeof document !== 'undefined' ? (document.activeElement as HTMLElement) : null;
     await this.facade.executarTransferencia(dados);
     setTimeout(() => {
       this.feedbackAlert()?.nativeElement.focus();
@@ -26,6 +28,17 @@ export class PixTransferComponent {
 
   fecharFeedback(): void {
     this.facade.limparFeedback();
+    // Restaura o foco para o elemento anterior garantindo navegação contínua por teclado
+    if (this.lastActiveElement && typeof this.lastActiveElement.focus === 'function') {
+      this.lastActiveElement.focus();
+    }
+  }
+
+  protected onKeydownEscape(event?: Event): void {
+    if (this.facade.isError() || this.facade.isSuccess()) {
+      event?.preventDefault();
+      this.fecharFeedback();
+    }
   }
 }
 

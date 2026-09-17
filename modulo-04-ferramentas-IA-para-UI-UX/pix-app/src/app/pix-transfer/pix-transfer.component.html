@@ -5,10 +5,12 @@
       <p class="pix-subtitle">Envie dinheiro de forma instantânea ou agendada com segurança.</p>
     </div>
 
-    <div class="balance-card" aria-label="Saldo em conta">
-      <span class="balance-label">Saldo em conta</span>
-      <strong class="balance-value">{{ facade.saldo() | currency:'BRL':'symbol':'1.2-2' }}</strong>
-    </div>
+    <section class="balance-card" aria-labelledby="balance-label">
+      <span id="balance-label" class="balance-label">Saldo em conta</span>
+      <strong class="balance-value" [attr.aria-label]="'Saldo disponível: ' + (facade.saldo() | currency:'BRL':'symbol':'1.2-2')">
+        {{ facade.saldo() | currency:'BRL':'symbol':'1.2-2' }}
+      </strong>
+    </section>
   </header>
 
   @if (facade.isError() && facade.mensagemErro(); as erro) {
@@ -30,7 +32,7 @@
         type="button"
         class="btn-dismiss"
         (click)="fecharFeedback()"
-        aria-label="Fechar mensagem de erro (ou pressione tecla Escape)"
+        aria-label="Fechar mensagem de erro"
       >
         <span aria-hidden="true">✕</span>
       </button>
@@ -59,7 +61,7 @@
         type="button"
         class="btn-dismiss"
         (click)="fecharFeedback()"
-        aria-label="Fechar comprovante de sucesso (ou pressione tecla Escape)"
+        aria-label="Fechar comprovante de sucesso"
       >
         <span aria-hidden="true">✕</span>
       </button>

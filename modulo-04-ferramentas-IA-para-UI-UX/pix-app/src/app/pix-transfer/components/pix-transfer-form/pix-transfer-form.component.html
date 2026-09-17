@@ -8,12 +8,15 @@
       </label>
       <div class="input-wrapper">
         <input
+          #chaveInput
           type="text"
           id="chavePix"
           class="form-input"
           [formField]="pixForm.chave"
           placeholder="CPF, e-mail, telefone ou chave aleatória"
           autocomplete="off"
+          autocapitalize="none"
+          spellcheck="false"
           aria-required="true"
           [attr.aria-invalid]="pixForm.chave().invalid() && pixForm.chave().touched()"
           [attr.aria-describedby]="(pixForm.chave().invalid() && pixForm.chave().touched()) ? 'chavePixError chavePixHint' : 'chavePixHint'"
@@ -21,7 +24,7 @@
       </div>
       <span id="chavePixHint" class="form-hint">Informe CPF, e-mail, telefone ou chave aleatória.</span>
       @if (pixForm.chave().invalid() && pixForm.chave().touched()) {
-        <span id="chavePixError" class="field-error" role="alert">
+        <span id="chavePixError" class="field-error" aria-live="polite">
           A chave Pix é obrigatória para realizar a transferência.
         </span>
       }
@@ -33,11 +36,13 @@
       </label>
       <div class="input-wrapper">
         <input
+          #valorInput
           type="number"
           id="valorPix"
           class="form-input"
           [formField]="pixForm.valor"
           step="0.01"
+          inputmode="decimal"
           placeholder="0,00"
           aria-required="true"
           [attr.aria-invalid]="pixForm.valor().invalid() && pixForm.valor().touched()"
@@ -46,7 +51,7 @@
       </div>
       <span id="valorPixHint" class="form-hint">Valor mínimo de R$ 0,01.</span>
       @if (pixForm.valor().invalid() && pixForm.valor().touched()) {
-        <span id="valorPixError" class="field-error" role="alert">
+        <span id="valorPixError" class="field-error" aria-live="polite">
           Informe um valor válido maior ou igual a R$ 0,01.
         </span>
       }
@@ -58,17 +63,19 @@
       </label>
       <div class="input-wrapper">
         <input
+          #dataInput
           type="date"
           id="dataAgendamento"
           class="form-input"
           [formField]="pixForm.data"
           aria-required="true"
           [attr.aria-invalid]="pixForm.data().invalid() && pixForm.data().touched()"
-          [attr.aria-describedby]="(pixForm.data().invalid() && pixForm.data().touched()) ? 'dataAgendamentoError' : null"
+          [attr.aria-describedby]="(pixForm.data().invalid() && pixForm.data().touched()) ? 'dataAgendamentoError dataAgendamentoHint' : 'dataAgendamentoHint'"
         />
       </div>
+      <span id="dataAgendamentoHint" class="form-hint">Data para efetivação (hoje ou agendamento futuro).</span>
       @if (pixForm.data().invalid() && pixForm.data().touched()) {
-        <span id="dataAgendamentoError" class="field-error" role="alert">
+        <span id="dataAgendamentoError" class="field-error" aria-live="polite">
           Informe a data desejada para a transferência.
         </span>
       }
@@ -79,7 +86,7 @@
     <button
       type="submit"
       class="btn-submit"
-      [disabled]="isLoading() || pixForm().invalid()"
+      [disabled]="isLoading()"
       [attr.aria-busy]="isLoading()"
     >
       @if (isLoading()) {

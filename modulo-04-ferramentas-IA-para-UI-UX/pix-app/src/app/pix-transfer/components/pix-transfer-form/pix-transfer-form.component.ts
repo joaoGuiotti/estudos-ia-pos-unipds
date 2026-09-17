@@ -1,4 +1,4 @@
-import { Component, effect, input, output, signal } from '@angular/core';
+import { Component, ElementRef, effect, input, output, signal, viewChild } from '@angular/core';
 import { FormField, FormRoot, form, min, required, submit } from '@angular/forms/signals';
 import { PixTransferData } from '../../models/pix.model';
 
@@ -13,6 +13,8 @@ export class PixTransferFormComponent {
   readonly isSuccess = input<boolean>(false);
   readonly transferir = output<PixTransferData>();
 
+  protected readonly dataMinima = new Date().toISOString().split('T')[0];
+
   protected readonly pixModel = signal<PixTransferData>({
     chave: '',
     valor: null,
@@ -25,6 +27,10 @@ export class PixTransferFormComponent {
     min(s.valor, 0.01);
     required(s.data);
   });
+
+  private readonly chaveInput = viewChild<ElementRef<HTMLInputElement>>('chaveInput');
+  private readonly valorInput = viewChild<ElementRef<HTMLInputElement>>('valorInput');
+  private readonly dataInput = viewChild<ElementRef<HTMLInputElement>>('dataInput');
 
   constructor() {
     effect(() => {
@@ -40,6 +46,20 @@ export class PixTransferFormComponent {
     await submit(this.pixForm, async () => {
       this.transferir.emit({ ...this.pixModel() });
     });
+
+    if (this.pixForm().invalid()) {
+      this.focarPrimeiroCampoInvalido();
+    }
+  }
+
+  private focarPrimeiroCampoInvalido(): void {
+    if (this.pixForm.chave().invalid()) {
+      this.chaveInput()?.nativeElement.focus();
+    } else if (this.pixForm.valor().invalid()) {
+      this.valorInput()?.nativeElement.focus();
+    } else if (this.pixForm.data().invalid()) {
+      this.dataInput()?.nativeElement.focus();
+    }
   }
 
   limpar(): void {

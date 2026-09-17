@@ -70,29 +70,32 @@
   justify-content: space-between;
   padding: var(--spacing-md);
   border-radius: var(--radius-sm);
-  background-color: var(--color-background-light);
+  background-color: var(--color-background);
   border: var(--border-width-thin) solid var(--color-primary);
   animation: fadeIn var(--transition-normal);
   outline: none;
 
+  &:focus-visible,
   &:focus {
-    box-shadow: 0 0 0 var(--border-width-focus) var(--color-action-primary);
+    box-shadow: 0 0 0 var(--border-width-focus) var(--color-focus-ring);
   }
 
   &--error {
     border-color: var(--color-error);
     border-left: var(--border-width-thick) solid var(--color-error);
-    background-color: var(--color-background-light);
 
+    &:focus-visible,
     &:focus {
       box-shadow: 0 0 0 var(--border-width-focus) var(--color-error);
     }
 
-    .alert-icon {
-      color: var(--color-error);
-    }
+    .alert-icon,
     .alert-title {
       color: var(--color-error);
+    }
+
+    .alert-message {
+      color: var(--color-text);
     }
   }
 
@@ -102,15 +105,22 @@
     background-color: var(--color-primary);
     color: var(--color-text-dark);
 
+    &:focus-visible,
+    &:focus {
+      box-shadow: 0 0 0 var(--border-width-focus) var(--color-accent);
+    }
+
     .alert-title {
       color: var(--color-accent);
     }
-    .alert-message {
-      color: var(--color-text-dark);
-    }
+
+    .alert-message,
     .receipt-id {
       color: var(--color-text-dark);
-      opacity: 0.7;
+    }
+
+    .receipt-id {
+      opacity: 0.85;
       font-size: var(--font-size-xs);
       margin-top: var(--spacing-base);
     }
@@ -155,27 +165,37 @@
 }
 
 .btn-dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
   background: transparent;
   border: none;
   font-size: var(--font-size-md);
   color: var(--color-text);
   cursor: pointer;
-  padding: var(--spacing-base);
-  opacity: 0.6;
+  padding: var(--spacing-sm);
+  opacity: 0.85;
   border-radius: var(--radius-xs);
-  transition: opacity var(--transition-fast);
+  transition: opacity var(--transition-fast), box-shadow var(--transition-fast);
 
   &:hover {
     opacity: 1;
   }
 
-  &:focus {
+  &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 var(--border-width-md) var(--color-action-primary);
+    opacity: 1;
+    box-shadow: 0 0 0 var(--border-width-md) var(--color-focus-ring);
   }
 
   .feedback-alert--success & {
     color: var(--color-text-dark);
+
+    &:focus-visible {
+      box-shadow: 0 0 0 var(--border-width-md) var(--color-accent);
+    }
   }
 }
 
@@ -185,13 +205,6 @@
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(calc(var(--spacing-base) * -1));
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(calc(var(--spacing-base) * -1)); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
