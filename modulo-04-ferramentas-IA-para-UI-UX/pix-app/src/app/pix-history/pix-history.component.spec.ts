@@ -1,12 +1,60 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { PixHistoryComponent } from './pix-history.component';
 import { PixHistoryBaseService } from './services/pix-history-base.service';
-import { PixHistoryService } from './services/pix-history.service';
+import { Transaction } from './models/pix-history.model';
+import { Injectable } from '@angular/core';
 
 registerLocaleData(localePt);
+
+/**
+ * Mock síncrono do serviço para testes — sem delays simulados.
+ */
+@Injectable()
+class MockPixHistoryTestService extends PixHistoryBaseService {
+  async carregarTransacoes(): Promise<Transaction[]> {
+    return [
+      {
+        id: 'tx-1',
+        title: 'Pix recebido - Erick S.',
+        amount: 500.0,
+        type: 'received',
+        date: '14 de Março, 14:30',
+        category: 'transfer',
+      },
+      {
+        id: 'tx-2',
+        title: 'Transferência enviada - Pagamentos S/A',
+        amount: 150.0,
+        type: 'sent',
+        date: '13 de Março, 09:15',
+        category: 'transfer',
+      },
+      {
+        id: 'tx-3',
+        title: 'Pix recebido - Loja Central',
+        amount: 1250.0,
+        type: 'received',
+        date: '12 de Março, 18:45',
+        category: 'transfer',
+      },
+      {
+        id: 'tx-4',
+        title: 'Pagamento efetuado - QR Code',
+        amount: 42.9,
+        type: 'sent',
+        date: '12 de Março, 10:20',
+        category: 'qr-code',
+      },
+    ];
+  }
+
+  async solicitarRelatorio(): Promise<boolean> {
+    return true;
+  }
+}
 
 describe('PixHistoryComponent', () => {
   let component: PixHistoryComponent;
@@ -17,21 +65,24 @@ describe('PixHistoryComponent', () => {
       imports: [PixHistoryComponent],
       providers: [
         { provide: LOCALE_ID, useValue: 'pt-BR' },
-        { provide: PixHistoryBaseService, useClass: PixHistoryService },
+        { provide: PixHistoryBaseService, useClass: MockPixHistoryTestService },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PixHistoryComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    // Aguarda carregamento assíncrono via facade (mock sem delay)
+    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create the component', () => {
-    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should render the header title and subtitle', () => {
-    fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     const title = compiled.querySelector('.history-title');
     const subtitle = compiled.querySelector('.history-subtitle');
@@ -40,12 +91,7 @@ describe('PixHistoryComponent', () => {
     expect(subtitle?.textContent?.trim()).toBe('Confira suas últimas movimentações');
   });
 
-  it('should render all transactions loaded via facade', fakeAsync(() => {
-    fixture.detectChanges();
-    // Avança o timer simulado do serviço (400ms de latência)
-    tick(500);
-    fixture.detectChanges();
-
+  it('should render all transactions loaded via facade', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const items = compiled.querySelectorAll('.transaction-item');
 
@@ -58,32 +104,23 @@ describe('PixHistoryComponent', () => {
     expect(items[2].textContent).toContain('+ R$ 1.250,00');
     expect(items[3].textContent).toContain('Pagamento efetuado - QR Code');
     expect(items[3].textContent).toContain('- R$ 42,90');
-  }));
+  });
 
   it('should not render bottom navigation bar', () => {
-    fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     const bottomNav = compiled.querySelector('.bottom-nav');
 
     expect(bottomNav).toBeNull();
   });
 
-  it('should trigger report generation on button click', fakeAsync(() => {
-    fixture.detectChanges();
-    tick(500);
-    fixture.detectChanges();
-
+  it('should trigger report generation on button click', async () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const btnReport = compiled.querySelector('.btn-report') as HTMLButtonElement;
 
     btnReport.click();
-    // Avança o timer simulado do relatório (600ms)
-    tick(700);
+    await fixture.whenStable();
     fixture.detectChanges();
 
     expect(component['facade'].relatorioSolicitado()).toBe(true);
-
-    // Limpa o timer de reset do relatório (3000ms)
-    tick(3000);
-  }));
+  });
 });
