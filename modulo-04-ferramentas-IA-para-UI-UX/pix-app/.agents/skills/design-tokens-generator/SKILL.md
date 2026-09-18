@@ -1,15 +1,17 @@
-# Role: Design System & Tokens Generator Skill
-
-**Ativação:** Esta skill é ativada automaticamente pelo Agente Principal sempre que tokens de design, variáveis de tema, arquivos de estilização global ou temas (Dark/Light mode) estiverem sendo criados ou modificados.
-
+---
+name: design-tokens-generator
+description: >-
+  Use esta skill sempre que tokens de design, variáveis de tema, arquivos de
+  estilização global SCSS ou temas (Dark/Light mode) estiverem sendo criados ou
+  modificados. Converte requisitos visuais em um sistema de Tokens de Design em
+  SCSS nativo com nomenclatura semântica e suporte a temas.
 ---
 
-## 🎨 Objetivo
+# 🎨 Design System & Tokens Generator Skill
+
 Converter requisitos visuais, briefings de branding ou especificações de UI em um sistema robusto de Tokens de Design em SCSS nativo, preparado para alta escalabilidade e alternância de temas.
 
----
-
-## 📐 Diretrizes Técnicas
+## Diretrizes Técnicas
 
 ### 1. Nomenclatura Semântica
 - Não use nomes atrelados a cores fixas (ex: nunca use `--color-blue` ou `--color-gray-100` diretamente nos componentes).

@@ -8,6 +8,10 @@
 
   /* Feedback / Status (em conformidade WCAG AA - mínimo 4.5:1) */
   --color-error: #D32F2F;
+  --color-error-bg: #FEE2E2;
+  --color-error-border: #FECACA;
+  --color-neutral-bg: #F1F5F9;
+  --color-neutral-text: #475569;
   --color-focus-ring: #0A192F;
   --color-success: #059669;
   --color-success-bg: #ECFDF5;
@@ -38,6 +42,7 @@
 
   /* Escala de Espaçamento (Base 4px) */
   --spacing-base: 4px;
+  --spacing-xs: 6px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 24px;
@@ -82,6 +87,10 @@
     --color-text: var(--color-text-dark);
     --color-text-muted: #94A3B8;
     --color-error: #FF6B6B;
+    --color-error-bg: rgba(239, 68, 68, 0.15);
+    --color-error-border: rgba(239, 68, 68, 0.3);
+    --color-neutral-bg: #1E293B;
+    --color-neutral-text: #94A3B8;
     --color-focus-ring: var(--color-accent);
     --color-success: #34D399;
     --color-success-bg: rgba(16, 185, 129, 0.15);
@@ -96,6 +105,10 @@
     --color-text: var(--color-text-dark);
     --color-text-muted: #94A3B8;
     --color-error: #FF6B6B;
+    --color-error-bg: rgba(239, 68, 68, 0.15);
+    --color-error-border: rgba(239, 68, 68, 0.3);
+    --color-neutral-bg: #1E293B;
+    --color-neutral-text: #94A3B8;
     --color-focus-ring: var(--color-accent);
     --color-success: #34D399;
     --color-success-bg: rgba(16, 185, 129, 0.15);
@@ -110,6 +123,10 @@
     --color-text: var(--color-text-light);
     --color-text-muted: #64748B;
     --color-error: #D32F2F;
+    --color-error-bg: #FEE2E2;
+    --color-error-border: #FECACA;
+    --color-neutral-bg: #F1F5F9;
+    --color-neutral-text: #475569;
     --color-focus-ring: #0A192F;
     --color-success: #059669;
     --color-success-bg: #ECFDF5;
@@ -120,7 +137,9 @@
   }
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -138,6 +157,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -145,5 +165,12 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  .app-header,
+  .app-sidebar {
+    display: none !important;
   }
 }

@@ -2,7 +2,7 @@
   <header class="app-header">
     <nav class="app-nav" aria-label="Navegação Principal">
       <div class="brand">
-        <span class="brand-icon" aria-hidden="true">❖</span>
+        <svg lucideLandmark [size]="22" class="brand-icon" aria-hidden="true"></svg>
         <h1 class="brand-title">App de Transferência</h1>
       </div>
       <div class="nav-actions">
@@ -22,8 +22,19 @@
               [routerLinkActiveOptions]="{ exact: false }"
               class="menu-link"
             >
-              <span class="menu-icon" aria-hidden="true">⇄</span>
+              <svg lucideArrowLeftRight [size]="18" class="menu-icon" aria-hidden="true"></svg>
               <span class="menu-text">Área Pix</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a
+              routerLink="/extrato"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: false }"
+              class="menu-link"
+            >
+              <svg lucideReceiptText [size]="18" class="menu-icon" aria-hidden="true"></svg>
+              <span class="menu-text">Extrato Pix</span>
             </a>
           </li>
         </menu>

@@ -7,12 +7,29 @@ import {
   signal,
 } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import {
+  LucideArrowLeft,
+  LucideCheck,
+  LucideCopy,
+  LucidePrinter,
+  LucideShare2,
+  LucideZap,
+} from '@lucide/angular';
 import { PixReceipt } from '../../models/pix.model';
 
 @Component({
   selector: 'app-pix-receipt',
   standalone: true,
-  imports: [CurrencyPipe, DatePipe],
+  imports: [
+    CurrencyPipe,
+    DatePipe,
+    LucideCheck,
+    LucideCopy,
+    LucideArrowLeft,
+    LucideZap,
+    LucidePrinter,
+    LucideShare2,
+  ],
   templateUrl: './pix-receipt.component.html',
   styleUrl: './pix-receipt.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -3,9 +3,7 @@
   <header class="receipt-header">
     <div class="receipt-brand">
       <div class="brand-badge" aria-hidden="true">
-        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-        </svg>
+        <svg lucideZap [size]="20" [strokeWidth]="2.5" class="brand-icon"></svg>
       </div>
       <span class="brand-title">
         PixPay <span class="brand-tag">Comprovante</span>
@@ -19,11 +17,7 @@
         (click)="imprimir()"
         aria-label="Imprimir comprovante Pix"
       >
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <polyline points="6 9 6 2 18 2 18 9" />
-          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-          <rect x="6" y="14" width="12" height="8" />
-        </svg>
+        <svg lucidePrinter [size]="16" [strokeWidth]="2" class="btn-icon" aria-hidden="true"></svg>
         <span>Imprimir</span>
       </button>
 
@@ -33,13 +27,7 @@
         (click)="compartilhar()"
         aria-label="Compartilhar comprovante Pix"
       >
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="18" cy="5" r="3" />
-          <circle cx="6" cy="12" r="3" />
-          <circle cx="18" cy="19" r="3" />
-          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-        </svg>
+        <svg lucideShare2 [size]="16" [strokeWidth]="2" class="btn-icon" aria-hidden="true"></svg>
         <span>Compartilhar</span>
       </button>
     </div>
@@ -54,9 +42,7 @@
       <!-- Cabeçalho de Status e Valor -->
       <section class="receipt-status-section">
         <div class="status-icon-bubble" aria-hidden="true">
-          <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
+          <svg lucideCheck [size]="32" [strokeWidth]="3" class="check-icon"></svg>
         </div>
 
         <div class="status-badge" role="status">
@@ -122,15 +108,10 @@
             [attr.aria-label]="copiado() ? 'Código de autenticação copiado' : 'Copiar código de autenticação'"
           >
             @if (copiado()) {
-              <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
+              <svg lucideCheck [size]="16" [strokeWidth]="2.5" class="copy-icon" aria-hidden="true"></svg>
               <span>Copiado!</span>
             } @else {
-              <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-              </svg>
+              <svg lucideCopy [size]="16" [strokeWidth]="2" class="copy-icon" aria-hidden="true"></svg>
               <span>Copiar</span>
             }
           </button>
@@ -145,10 +126,7 @@
           (click)="onVoltar()"
           aria-label="Voltar para a página inicial de transferências"
         >
-          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
+          <svg lucideArrowLeft [size]="18" [strokeWidth]="2.5" class="btn-icon" aria-hidden="true"></svg>
           <span>Voltar ao início</span>
         </button>
       </footer>

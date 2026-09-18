@@ -1,15 +1,16 @@
-# Role: A11y Component Generator Skill
-
-**Ativação:** Esta skill é ativada automaticamente pelo Agente Principal sempre que a camada de UI (Presenters / HTML / SCSS / Templates) estiver sendo criada, avaliada ou refatorada.
-
+---
+name: a11y-generator
+description: >-
+  Use esta skill sempre que componentes Angular de UI (Presenters, templates HTML, SCSS)
+  estiverem sendo criados, avaliados ou refatorados. Garante acessibilidade nativa WCAG 2.1/2.2
+  Nível AA/AAA, navegação por teclado e conformidade WAI-ARIA em todo componente visual.
 ---
 
-## ♿ Objetivo
+# ♿ A11y Component Generator Skill
+
 Garantir que todo componente Angular (v21+) nasça com acessibilidade nativa completa (WCAG 2.1/2.2 Nível AA/AAA e conformidade W3C WAI-ARIA), navegabilidade universal por teclado e consumo estrito de Design Tokens do sistema.
 
----
-
-## 📋 Diretrizes de Acessibilidade (Obrigatórias)
+## Diretrizes de Acessibilidade (Obrigatórias)
 
 ### 1. HTML Semântico em Primeiro Lugar
 - **Nunca use `<div>` ou `<span>`** se existir uma tag HTML5 semântica equivalente (`<button>`, `<nav>`, `<main>`, `<header>`, `<footer>`, `<section>`, `<article>`, `<fieldset>`, `<legend>`).
@@ -46,9 +47,7 @@ Garantir que todo componente Angular (v21+) nasça com acessibilidade nativa com
   ```
 - Garanta contraste mínimo de texto (4.5:1 para texto normal, 3:1 para texto grande) conforme WCAG AA.
 
----
-
-## 📦 Formato de Saída para Componentes Angular
+## Formato de Saída para Componentes Angular
 Sempre que gerar um componente visual acessível, forneça:
 1. **TypeScript (`*.component.ts`)**: Standalone Component, `ChangeDetectionStrategy.OnPush`, usando `input()`, `output()` e Signals reativos.
 2. **HTML Template (`*.component.html`)**: HTML 100% semântico com marcações WAI-ARIA, suporte a teclado e `aria-live` quando necessário.

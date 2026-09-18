@@ -5,6 +5,8 @@ import localePt from '@angular/common/locales/pt';
 import { routes } from './app.routes';
 import { PixBaseService } from './pix-transfer/services/pix-base.service';
 import { PixService } from './pix-transfer/services/pix.service';
+import { PixHistoryBaseService } from './pix-history/services/pix-history-base.service';
+import { PixHistoryService } from './pix-history/services/pix-history.service';
 
 registerLocaleData(localePt);
 
@@ -16,6 +18,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: PixBaseService,
       useClass: PixService,
+    },
+    {
+      provide: PixHistoryBaseService,
+      useClass: PixHistoryService,
     },
   ],
 };

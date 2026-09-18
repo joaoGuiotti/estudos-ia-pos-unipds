@@ -1,0 +1,99 @@
+<section class="pix-history-container" aria-labelledby="history-heading">
+  <article class="history-card">
+    <!-- Cabeçalho Dark Navy do Figma -->
+    <header class="history-header">
+      <div class="header-top-bar">
+        <button
+          type="button"
+          class="header-action-btn"
+          aria-label="Voltar para a página anterior"
+        >
+          <svg lucideChevronLeft [size]="20" aria-hidden="true"></svg>
+        </button>
+        <button
+          type="button"
+          class="header-action-btn"
+          aria-label="Opções e configurações do extrato"
+        >
+          <svg lucideMoreVertical [size]="20" aria-hidden="true"></svg>
+        </button>
+      </div>
+
+      <div class="header-content">
+        <h1 id="history-heading" class="history-title">Extrato Pix</h1>
+        <p class="history-subtitle">Confira suas últimas movimentações</p>
+      </div>
+    </header>
+
+    <!-- Seção de Transações Recentes -->
+    <div class="history-body-wrapper">
+      <section class="history-body" aria-label="Lista de movimentações recentes">
+        <div class="section-label-container">
+          <h2 class="section-label">RECENTES</h2>
+        </div>
+
+        <ul class="pix-history-list" role="list">
+          @for (item of facade.transactions(); track item.id) {
+            <li class="transaction-item">
+              <div class="transaction-info">
+                <div
+                  class="transaction-badge"
+                  [class.transaction-badge--received]="item.type === 'received'"
+                  [class.transaction-badge--sent-neutral]="item.type === 'sent' && item.category !== 'qr-code'"
+                  [class.transaction-badge--sent-danger]="item.type === 'sent' && item.category === 'qr-code'"
+                  aria-hidden="true"
+                >
+                  @if (item.type === 'received') {
+                    <svg lucideArrowUp [size]="18" [strokeWidth]="2.5" aria-hidden="true"></svg>
+                  } @else {
+                    <svg lucideArrowDown [size]="18" [strokeWidth]="2.5" aria-hidden="true"></svg>
+                  }
+                </div>
+
+                <div class="transaction-details">
+                  <span class="transaction-title">{{ item.title }}</span>
+                  <time class="transaction-date">{{ item.date }}</time>
+                </div>
+              </div>
+
+              <div
+                class="transaction-amount"
+                [class.transaction-amount--positive]="item.type === 'received'"
+                [class.transaction-amount--negative]="item.type === 'sent'"
+                [attr.aria-label]="(item.type === 'received' ? 'Valor recebido: ' : 'Valor enviado: ') + item.amount"
+              >
+                {{ formatAmount(item.amount, item.type) }}
+              </div>
+            </li>
+          } @empty {
+            <li class="empty-state">
+              <p>Nenhuma movimentação recente encontrada.</p>
+            </li>
+          }
+        </ul>
+      </section>
+
+      <!-- Botão de Ação -->
+      <div class="action-footer">
+        <button
+          type="button"
+          class="btn-report"
+          (click)="gerarRelatorio()"
+          [attr.aria-busy]="facade.relatorioSolicitado()"
+        >
+          @if (facade.relatorioSolicitado()) {
+            Relatório Solicitado!
+          } @else {
+            Gerar Novo Relatório
+          }
+        </button>
+
+        @if (facade.relatorioSolicitado()) {
+          <div class="sr-only" role="status" aria-live="polite">
+            Solicitação de relatório enviada com sucesso.
+          </div>
+        }
+      </div>
+    </div>
+  </article>
+</section>

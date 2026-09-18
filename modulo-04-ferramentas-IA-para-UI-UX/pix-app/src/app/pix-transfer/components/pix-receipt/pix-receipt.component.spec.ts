@@ -48,6 +48,7 @@ describe('PixReceiptComponent', () => {
     expect(amountEl?.textContent).toMatch(/150[.,]00/);
     expect(nameEl?.textContent).toContain('Jhon G.');
     expect(keyEl?.textContent).toContain('jhon.g@email.com');
+    const authEl = compiled.querySelector('.auth-code');
     expect(authEl?.textContent).toContain('AUTH-999-XYZ');
     expect(timestampEl?.textContent?.toLowerCase()).toContain('setembro');
   });
