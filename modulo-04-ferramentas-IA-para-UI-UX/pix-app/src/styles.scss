@@ -38,6 +38,7 @@
 
   /* Escala de Espaçamento (Base 4px) */
   --spacing-base: 4px;
+  --spacing-xs: 6px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 24px;
@@ -120,7 +121,9 @@
   }
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -138,6 +141,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -145,5 +149,12 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  .app-header,
+  .app-sidebar {
+    display: none !important;
   }
 }

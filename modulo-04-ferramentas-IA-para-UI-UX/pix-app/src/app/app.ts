@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { LucideArrowLeftRight, LucideLandmark } from '@lucide/angular';
 
 @Component({
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, LucideLandmark, LucideArrowLeftRight],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
