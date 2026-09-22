@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   LucideArrowDown,
@@ -23,6 +24,7 @@ import { PixHistoryFacade } from './facade/pix-history.facade';
 })
 export class PixHistoryComponent {
   protected readonly facade = inject(PixHistoryFacade);
+  private readonly location = inject(Location);
 
   constructor() {
     this.facade.carregarTransacoes();
@@ -30,6 +32,10 @@ export class PixHistoryComponent {
 
   protected gerarRelatorio(): void {
     this.facade.gerarRelatorio();
+  }
+
+  protected goBack(): void {
+    this.location.back();
   }
 
   protected formatAmount(amount: number, type: TransactionType): string {

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LOCALE_ID } from '@angular/core';
-import { registerLocaleData } from '@angular/common';
+import { Location, registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { PixHistoryComponent } from './pix-history.component';
 import { PixHistoryBaseService } from './services/pix-history-base.service';
@@ -122,5 +122,18 @@ describe('PixHistoryComponent', () => {
     fixture.detectChanges();
 
     expect(component['facade'].relatorioSolicitado()).toBe(true);
+  });
+
+  it('should call location.back when the go back button is clicked', () => {
+    const location = TestBed.inject(Location);
+    const backSpy = vi.spyOn(location, 'back');
+    const compiled = fixture.nativeElement as HTMLElement;
+    const backButton = compiled.querySelector(
+      'button[aria-label="Voltar para a página anterior"]'
+    ) as HTMLButtonElement;
+
+    backButton.click();
+
+    expect(backSpy).toHaveBeenCalledTimes(1);
   });
 });
